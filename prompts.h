@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "datainput.h"
+
 void welcome_prompt();
 
 

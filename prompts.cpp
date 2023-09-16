@@ -8,4 +8,7 @@ void welcome_prompt() {
 	if (choice == 'N' || choice == 'n') {
 		exit(0);
 	} 
+	if (choice == 'Y' || choice == 'y') {
+		create_array();
+	}
 }
