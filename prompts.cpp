@@ -10,5 +10,10 @@ void welcome_prompt() {
 	} 
 	if (choice == 'Y' || choice == 'y') {
 		create_array();
+		std::cout << std::endl << "Reading from files..." << std::endl;
 	}
+}
+
+void choosing_algorithm() {
+	std::cout << ""
 }
