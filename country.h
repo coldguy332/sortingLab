@@ -6,7 +6,7 @@
 class Country {
 	public:
 		Country();
-		Country(std::string country_name, std::string code, std::string calling_code, int year ,int emissions, int population, int area, int percent, int density);
+		Country(std::string country_name, std::string code, std::string calling_code, int year ,int emissions, int population, int area, std::string percent, std::string density);
 		std::string get_name() const;
 		std::string get_code() const;
 		std::string get_calling() const;
@@ -14,8 +14,8 @@ class Country {
 		int get_emissions() const;
 		int get_population() const;
 		int get_area() const;
-		int get_percent() const;
-		int get_density() const;
+		std::string get_percent() const;
+		std::string get_density() const;
 
 	private:
 		std::string country_name;
@@ -25,8 +25,8 @@ class Country {
 		int emissions;
 		int population;
 		int area;
-		int percent;
-		int density;
+		std::string percent;
+		std::string density;
 
 };
 
