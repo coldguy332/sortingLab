@@ -9,11 +9,14 @@ void welcome_prompt() {
 		exit(0);
 	} 
 	if (choice == 'Y' || choice == 'y') {
-		create_array();
 		std::cout << std::endl << "Reading from files..." << std::endl;
+		create_array();
 	}
 }
 
 void choosing_algorithm() {
-	std::cout << ""
+	std::cout << "Reading from files completed. Data has been inputed." << std::endl;
+	std::cout << "Do you want to " << std::endl 
+		<<"A)sort from all algorithms at the same time "<< std::endl 
+		<<"B)one random slow and fast algorithm";
 }

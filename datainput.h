@@ -6,9 +6,13 @@
 #include <sstream>
 
 #include "country.h"
+#include "prompts.h"
+#include "bubblesort.h"
 
 void create_array();
 void array_filler(std::ifstream& in_file, Country *arr, int index);
+void unknown_checker(std::string& temp_name, std::string& temp_code, std::string& temp_calling, std::string& temp_year ,
+			std::string& temp_emissions, std::string& temp_population, std::string& temp_area, std::string& temp_percent, std::string& temp_density);
 int line_counter(std::ifstream& in_file);
 
 #endif

@@ -4,16 +4,16 @@ Country::Country() {
 	this->country_name = "";
 	this->code = "";
 	this->calling_code = "";
-	this->year = "";
-	this->emissions = "";
-	this->population = "";
-	this->area = "";
+	this->year = 0;
+	this->emissions = 0;
+	this->population = 0;
+	this->area = 0;
 	this->percent = "";
 	this->density = "";
 }
 
-Country::Country(std::string country_name, std::string code, std::string calling_code, std::string year ,
-	std::string emissions, std::string population, std::string area, std::string percent, std::string density) {
+Country::Country(std::string country_name, std::string code, std::string calling_code, int year ,
+	long int emissions, long int population, long int area, std::string percent, std::string density) {
 	this->country_name = country_name;
 	this->code = code;
 	this->calling_code = calling_code;
@@ -34,16 +34,16 @@ std::string Country::get_code() const {
 std::string Country::get_calling() const {
 	return this->calling_code;
 }
-std::string Country::get_year() const {
+int Country::get_year() const {
 	return this->year;
 }
-std::string Country::get_emissions() const {
+long int Country::get_emissions() const {
 	return this->emissions;
 }
-std::string Country::get_population() const {
+long int Country::get_population() const {
 	return this->population;
 }
-std::string Country::get_area() const {
+long int Country::get_area() const {
 	return this->area;
 }
 std::string Country::get_percent() const {
@@ -52,3 +52,5 @@ std::string Country::get_percent() const {
 std::string Country::get_density() const {
 	return this->density;
 }
+
+

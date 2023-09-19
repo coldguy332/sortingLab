@@ -9,9 +9,10 @@ void create_array() {
 	Country *arr_one = new Country[index];
 	array_filler(in_file,arr_one,index);
 
+
 	//Creates array of countries from bigger of csv file
 	in_file.open("bigfile.csv");
-	int index = line_counter(in_file);
+	index = line_counter(in_file);
 	Country *arr_two = new Country[index];
 	array_filler(in_file,arr_two,index);
 
@@ -27,7 +28,7 @@ void array_filler(std::ifstream& in_file, Country *arr, int index) {
 	//temp strings that will be used to store data from reading csv
 	//temp strings will be used as paramater in country object constructor
 	std::string temp_name;
-	std::string temp_code;f
+	std::string temp_code;
 	std::string temp_calling;
 	std::string temp_year;
 	std::string temp_emissions;
@@ -56,9 +57,13 @@ void array_filler(std::ifstream& in_file, Country *arr, int index) {
 		getline(ss, temp_percent, ',');
 		getline(ss, temp_density);
 
+		//Checks for empty strings and flags them as unknowns
+		//String data members will be "unknown", ints will have a value of -1
+		unknown_checker(temp_name,temp_code,temp_calling,temp_year,temp_emissions,temp_population,temp_area,temp_percent,temp_density);
+
 		//Country object created, utilizing temp strings for constructor
-		arr[i] = Country(temp_name,temp_code,temp_calling, temp_year, temp_emissions,
-			temp_population,temp_area,temp_percent,temp_density);
+		arr[i] = Country(temp_name,temp_code,temp_calling, stoi(temp_year), stoul(temp_emissions),
+			stoul(temp_population),stoul(temp_area),temp_percent,temp_density);
 	}
 	//Once the end of file is reached, program returns to the top of the page
 	//NECESSARY or program will try reading from the bottom of the page when creating country arrays
@@ -68,6 +73,39 @@ void array_filler(std::ifstream& in_file, Country *arr, int index) {
 	//File closes
 	in_file.close();
 }
+
+void unknown_checker(std::string& temp_name, std::string& temp_code, std::string& temp_calling, std::string& temp_year ,
+			std::string& temp_emissions, std::string& temp_population, std::string& temp_area, std::string& temp_percent, std::string& temp_density) {
+	if (temp_name.empty()) {
+		temp_name = "unknown";
+	}
+	if (temp_code.empty()) {
+		temp_code = "unknown";
+	}
+	if (temp_calling.empty()) {
+		temp_calling = "unknown";
+	}
+	if (temp_year.empty()) {
+		temp_year = "-1" ;
+		//all integer data members with a -1 will signify an unknown
+	}
+	if (temp_emissions.empty()) {
+		temp_emissions = "-1";
+	}
+	if (temp_population.empty()) {
+		temp_population = "-1" ;
+	}
+	if (temp_area.empty()) {
+		temp_area = "-1";
+	}
+	if (temp_percent.empty()) {
+		temp_percent = "unknown";
+	}
+	if (temp_density.empty()) {
+		temp_density = "unknown";
+	}
+}
+
 
 /**
  * Although not necessary for this project (could be hardcoded)
