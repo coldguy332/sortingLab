@@ -159,11 +159,11 @@ void quoted_field_code(std::stringstream& ss, std::string& temp_string){
 void quoted_field_density(std::stringstream& ss, std::string& temp_string) {
 	if (ss.peek() == '"') {  //program looks to see if quotation mark exists, doesn't actually "collect" it
 		ss.ignore(); //If quote does exist, string stream will now pass over the first quote
-		getline(ss,temp_string,'"'); //Reads until the next quotation mark
+		getline(ss,temp_string,'/'); //Reads until the the slash
 		ss.ignore(); //Final quote is ignored
 	}
 	else {
-		getline(ss, temp_string, ',');
+		getline(ss, temp_string, '/');
 	}
 
 }
@@ -177,7 +177,7 @@ void quoted_field_density(std::stringstream& ss, std::string& temp_string) {
  * @https://stackoverflow.com/questions/4081750/difference-in-reading-csv-file-in-unix-system-windows-system
 **/
 void density_check(std::string& density){
-	std::stringstream dens(density); 
-	density = "";
-	dens >> density;
+	std::stringstream dens(density); //Sets stringstream to the temp_density string
+	density = ""; //Sets temp_destiny string to an empty string
+	dens >> density; //Density stores whatever was in stringstream
 }

@@ -4,17 +4,10 @@ void all_algos(Country *arr_one, Country *arr_two,int index_one, int index_two) 
 	int choice_one;
 	int choice_two;
 	sort_criteria(choice_one, choice_two);
-
-	for (int i = 0; i < index_one;i++) {
-		std::cout << arr_one[i].get_density() << std::endl;
-	}
-
-	new_bubblesort(arr_one,index_one,choice_one);
-	/*
+	merge_sort(arr_one,0,index_one-1,choice_one);
 	for (int i = 0; i < index_one; i++) {
-		std::cout << arr_one[i].get_population() << std::endl;
+		std::cout << i+2 << ")" << arr_one[i].get_emissions() << std::endl;
 	}
-	*/
 }
 
 void rand_algos(Country *arr_one, Country *arr_two,int index_one, int index_two) {
