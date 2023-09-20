@@ -14,9 +14,19 @@ void welcome_prompt() {
 	}
 }
 
-void choosing_algorithm() {
+void choosing_algorithm(Country *arr_one, Country *arr_two, int index_one, int index_two) {
+	char choice;
 	std::cout << "Reading from files completed. Data has been inputed." << std::endl;
 	std::cout << "Do you want to " << std::endl 
 		<<"A)sort from all algorithms at the same time "<< std::endl 
-		<<"B)one random slow and fast algorithm";
+		<<"B)one random slow and fast algorithm" << std::endl;
+	std::cin >> choice;
+
+	if (choice == 'A') {
+		all_algos(arr_one, arr_two, index_one, index_two);
+	}
+	else if (choice == 'B') {
+		rand_algos(arr_one, arr_two, index_one, index_two);
+	}
+
 }

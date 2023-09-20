@@ -5,17 +5,20 @@ void create_array() {
 
 	//Creates array of countries from smaller csv file
 	in_file.open("smallfile.csv");
-	int index = line_counter(in_file);
-	Country *arr_one = new Country[index];
-	array_filler(in_file,arr_one,index);
+	int index_one = line_counter(in_file);
+	Country *arr_one = new Country[index_one];
+	array_filler(in_file,arr_one,index_one);
 
-
+	/*
 	//Creates array of countries from bigger of csv file
 	in_file.open("bigfile.csv");
-	index = line_counter(in_file);
-	Country *arr_two = new Country[index];
-	array_filler(in_file,arr_two,index);
+	int index_two = line_counter(in_file);
+	Country *arr_two = new Country[index_two];
+	array_filler(in_file,arr_two,index_two);
 
+	choosing_algorithm(arr_one, arr_two,index_one,index_two);
+	
+	*/
 }
 
 /**
@@ -49,21 +52,31 @@ void array_filler(std::ifstream& in_file, Country *arr, int index) {
 		//Stringstream will store information in temp strings, comma represents where data ends for one value
 		getline(ss, temp_name, ',');
 		getline(ss, temp_code, ',');
-		getline(ss, temp_calling, ',');
+		quoted_field(ss,temp_calling,'A');
 		getline(ss, temp_year, ',');
 		getline(ss, temp_emissions, ',');
 		getline(ss, temp_population, ',');
 		getline(ss, temp_area, ',');
 		getline(ss, temp_percent, ',');
-		getline(ss, temp_density);
+		quoted_field(ss,temp_density,'B');
 
+
+		
+		
+		
 		//Checks for empty strings and flags them as unknowns
 		//String data members will be "unknown", ints will have a value of -1
+		
 		unknown_checker(temp_name,temp_code,temp_calling,temp_year,temp_emissions,temp_population,temp_area,temp_percent,temp_density);
 
+		std::cout << i+2 << "," << temp_name << "," << temp_code << "," << temp_calling << "," << temp_year << "," << temp_emissions << "," << temp_population << "," << temp_area << "," << temp_percent << "," << temp_density << std::endl;
+
 		//Country object created, utilizing temp strings for constructor
+		/*
 		arr[i] = Country(temp_name,temp_code,temp_calling, stoi(temp_year), stoul(temp_emissions),
-			stoul(temp_population),stoul(temp_area),temp_percent,temp_density);
+			stoul(temp_population),stoi(temp_area),stod(temp_percent),temp_density); */
+		
+		//std::cout << i+2 << ")" << arr[i].get_year() << "," << arr[i].get_emissions() << "," << arr[i].get_population() << "," << arr[i].get_area() << "," << arr[i].get_percent() << "," << arr[i].get_density() << std::endl;
 	}
 	//Once the end of file is reached, program returns to the top of the page
 	//NECESSARY or program will try reading from the bottom of the page when creating country arrays
@@ -83,7 +96,7 @@ void unknown_checker(std::string& temp_name, std::string& temp_code, std::string
 		temp_code = "unknown";
 	}
 	if (temp_calling.empty()) {
-		temp_calling = "unknown";
+		temp_calling = "?";
 	}
 	if (temp_year.empty()) {
 		temp_year = "-1" ;
@@ -99,10 +112,10 @@ void unknown_checker(std::string& temp_name, std::string& temp_code, std::string
 		temp_area = "-1";
 	}
 	if (temp_percent.empty()) {
-		temp_percent = "unknown";
+		temp_percent = "-1.0";
 	}
 	if (temp_density.empty()) {
-		temp_density = "unknown";
+		temp_density = "-1";
 	}
 }
 
@@ -131,3 +144,34 @@ int line_counter(std::ifstream& in_file) {
 
 	return index; //Returns index number
 }
+
+/**
+ * PRACTICALLY RIPPED FROM CHAT GPT
+ * PLZ CITE THE ALL GLORIOUS GPT
+*/
+void quoted_field(std::stringstream& ss, std::string& temp_string, char code_or_density){
+	if (code_or_density == 'A') {
+		if (ss.peek() == '"') {  //program looks to see if quotation mark exists, doesn't actually "collect" it
+			ss.ignore(); //If quote does exist, string stream will now pass over the first quote
+			getline(ss,temp_string,'"'); //Reads until the next quotation mark
+			ss.ignore(); //Final quote is ignored
+		}
+		else {
+			getline(ss, temp_string, ',');
+		}
+	}
+	if (code_or_density == 'B') {
+		if (ss.peek() == '"') {  //program looks to see if quotation mark exists, doesn't actually "collect" it
+			ss.ignore(); //If quote does exist, string stream will now pass over the first quote
+			getline(ss,temp_string,'"'); //Reads until the next quotation mark
+			ss.ignore(); //Final quote is ignored
+		}
+		else if (ss.peek() == EOF) {
+			temp_string = "-1" ;
+		}
+		else {
+			getline(ss,temp_string);
+		}
+	}
+}	
+	

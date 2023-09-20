@@ -3,12 +3,16 @@
 
 #include "country.h"
 
-void new_bubblesort(Country* arr, int index);
+void swap(Country& a, Country& b);
+bool criteria_sort(Country* arr, int index, int choice);
+void new_bubblesort(Country* arr, int index,int choice);
 
 /*
-void sort_by_criteria(Country* arr, int choice);
-
-void swap(string& arr_one, string& arr_two);
-
+void bubble_sort(Country* arr, int index,int choice);
 */
+
+
+
+
+
 #endif
