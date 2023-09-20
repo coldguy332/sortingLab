@@ -32,31 +32,6 @@ bool criteria_sort(Country* arr, int index, int choice) {
 }
 
 
-/*
-void bubble_sort(Country* arr, int index, int choice) {
-    bool swapped = true;
-    while (swapped) {
-        swapped = false;
-        for (int i = 1; i < index; i++) { 
-            if (arr[i].get_emissions() < arr[i-1].get_emissions()) {
-                swap(arr[i], arr[i-1]);
-                swapped = true;
-            }
-
-            /*)
-            bool criteria_comparison = criteria_sort(arr, i, choice);
-            if (criteria_comparison == true) {
-                swap(arr[i], arr[i - 1]); 
-                swapped = true;
-            }
-          
-
-        }
-    }
-}  
-*/
-
-
  void new_bubblesort(Country* arr, int index,int choice) {
     bool swapped = true;
     while (swapped) {

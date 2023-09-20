@@ -9,7 +9,6 @@ void create_array() {
 	Country *arr_one = new Country[index_one];
 	array_filler(in_file,arr_one,index_one);
 
-	/*
 	//Creates array of countries from bigger of csv file
 	in_file.open("bigfile.csv");
 	int index_two = line_counter(in_file);
@@ -18,13 +17,11 @@ void create_array() {
 
 	choosing_algorithm(arr_one, arr_two,index_one,index_two);
 	
-	*/
 }
 
 /**
  * Function parses through csv file to fill in data members of Country objects in array
 **/
-
 void array_filler(std::ifstream& in_file, Country *arr, int index) {
 	std::string temp_line; //temp string to store one row of data from csv file
 
@@ -52,51 +49,51 @@ void array_filler(std::ifstream& in_file, Country *arr, int index) {
 		//Stringstream will store information in temp strings, comma represents where data ends for one value
 		getline(ss, temp_name, ',');
 		getline(ss, temp_code, ',');
-		quoted_field(ss,temp_calling,'A');
+		//Necessary function that is able to parse through quotation marks
+		quoted_field_code(ss,temp_calling);
 		getline(ss, temp_year, ',');
 		getline(ss, temp_emissions, ',');
 		getline(ss, temp_population, ',');
 		getline(ss, temp_area, ',');
 		getline(ss, temp_percent, ',');
-		quoted_field(ss,temp_density,'B');
+		//Necessary function that is able to parse through quotation marks
+		quoted_field_density(ss,temp_density);
+		 
+		//Converts any "empty density strings" into actual empty density strings
+		density_check(temp_density);
 
-
-		
-		
-		
-		//Checks for empty strings and flags them as unknowns
-		//String data members will be "unknown", ints will have a value of -1
-		
+		//Converts any empty values into a "-1" which symbolizes an unknown
 		unknown_checker(temp_name,temp_code,temp_calling,temp_year,temp_emissions,temp_population,temp_area,temp_percent,temp_density);
 
-		std::cout << i+2 << "," << temp_name << "," << temp_code << "," << temp_calling << "," << temp_year << "," << temp_emissions << "," << temp_population << "," << temp_area << "," << temp_percent << "," << temp_density << std::endl;
-
 		//Country object created, utilizing temp strings for constructor
-		/*
 		arr[i] = Country(temp_name,temp_code,temp_calling, stoi(temp_year), stoul(temp_emissions),
-			stoul(temp_population),stoi(temp_area),stod(temp_percent),temp_density); */
+			stoul(temp_population),stoi(temp_area),stod(temp_percent),temp_density); 
 		
-		//std::cout << i+2 << ")" << arr[i].get_year() << "," << arr[i].get_emissions() << "," << arr[i].get_population() << "," << arr[i].get_area() << "," << arr[i].get_percent() << "," << arr[i].get_density() << std::endl;
 	}
 	//Once the end of file is reached, program returns to the top of the page
 	//NECESSARY or program will try reading from the bottom of the page when creating country arrays
 	//Because the program allows user to try more than once, this will be necessary
-	in_file.clear();
-	in_file.seekg(0);
+	in_file.clear(); //Resets error flags on a stream such as end of file
+	in_file.seekg(0);//sets position of next character to be read back to beginning of file
+	
 	//File closes
 	in_file.close();
 }
 
+
+/**
+ * Converts any empty strings into "-1" which symbolizes an unknown
+**/
 void unknown_checker(std::string& temp_name, std::string& temp_code, std::string& temp_calling, std::string& temp_year ,
 			std::string& temp_emissions, std::string& temp_population, std::string& temp_area, std::string& temp_percent, std::string& temp_density) {
 	if (temp_name.empty()) {
-		temp_name = "unknown";
+		temp_name = "-1";
 	}
 	if (temp_code.empty()) {
-		temp_code = "unknown";
+		temp_code = "-1";
 	}
 	if (temp_calling.empty()) {
-		temp_calling = "?";
+		temp_calling = "-1";
 	}
 	if (temp_year.empty()) {
 		temp_year = "-1" ;
@@ -149,29 +146,38 @@ int line_counter(std::ifstream& in_file) {
  * PRACTICALLY RIPPED FROM CHAT GPT
  * PLZ CITE THE ALL GLORIOUS GPT
 */
-void quoted_field(std::stringstream& ss, std::string& temp_string, char code_or_density){
-	if (code_or_density == 'A') {
-		if (ss.peek() == '"') {  //program looks to see if quotation mark exists, doesn't actually "collect" it
-			ss.ignore(); //If quote does exist, string stream will now pass over the first quote
-			getline(ss,temp_string,'"'); //Reads until the next quotation mark
-			ss.ignore(); //Final quote is ignored
-		}
-		else {
-			getline(ss, temp_string, ',');
-		}
+void quoted_field_code(std::stringstream& ss, std::string& temp_string){
+	if (ss.peek() == '"') {  //program looks to see if quotation mark exists, doesn't actually "collect" it
+		ss.ignore(); //If quote does exist, string stream will now pass over the first quote
+		getline(ss,temp_string,'"'); //Reads until the next quotation mark
+		ss.ignore(); //Final quote is ignored
 	}
-	if (code_or_density == 'B') {
-		if (ss.peek() == '"') {  //program looks to see if quotation mark exists, doesn't actually "collect" it
-			ss.ignore(); //If quote does exist, string stream will now pass over the first quote
-			getline(ss,temp_string,'"'); //Reads until the next quotation mark
-			ss.ignore(); //Final quote is ignored
-		}
-		else if (ss.peek() == EOF) {
-			temp_string = "-1" ;
-		}
-		else {
-			getline(ss,temp_string);
-		}
+	else {
+		getline(ss, temp_string, ',');
 	}
-}	
-	
+}
+void quoted_field_density(std::stringstream& ss, std::string& temp_string) {
+	if (ss.peek() == '"') {  //program looks to see if quotation mark exists, doesn't actually "collect" it
+		ss.ignore(); //If quote does exist, string stream will now pass over the first quote
+		getline(ss,temp_string,'"'); //Reads until the next quotation mark
+		ss.ignore(); //Final quote is ignored
+	}
+	else {
+		getline(ss, temp_string, ',');
+	}
+
+}
+
+/**
+ * This function checks if the temp_density that was parsed through is an empty string or not
+ * Issue: Windows and Linux has differences in reading CSV files
+ * Ideally this code would work on windows without this function but not on linux
+ * Without this function on linux, temp_density looks like an empty string even though it's not (returns a carriage return on linux)
+ * @param density //Passing by reference of temp_density
+ * @https://stackoverflow.com/questions/4081750/difference-in-reading-csv-file-in-unix-system-windows-system
+**/
+void density_check(std::string& density){
+	std::stringstream dens(density); 
+	density = "";
+	dens >> density;
+}
