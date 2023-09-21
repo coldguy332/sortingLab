@@ -22,10 +22,10 @@ void choosing_algorithm(Country *arr_one, Country *arr_two, int index_one, int i
 		<<"B)one random slow and fast algorithm" << std::endl;
 	std::cin >> choice;
 
-	if (choice == 'A') {
+	if (choice == 'A' || choice == 'a') {
 		all_algos(arr_one, arr_two, index_one, index_two);
 	}
-	else if (choice == 'B') {
+	else if (choice == 'B' || choice == 'b') {
 		rand_algos(arr_one, arr_two, index_one, index_two);
 	}
 
