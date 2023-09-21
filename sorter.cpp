@@ -220,6 +220,7 @@ std::string get_criteria(int choice){
 
 void choose_rand_alg(Country *arr, int index, int choice_one, int choice_two) {
 	int random = 0;
+	srand(time(NULL));
 	for (int i = 0; i < 5; i++) {
 		random = rand() % 3 + 1;
 	}
