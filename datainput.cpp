@@ -62,23 +62,30 @@ void array_filler(std::ifstream& in_file, Country *arr, int index) {
 		//Converts any "empty density strings" into actual empty density strings
 		density_check(temp_density);
 
+		comma_remover(temp_calling);
+		dash_remover(temp_calling);
+		comma_remover(temp_density);
+		
+
 		//Converts any empty values into a "-1" which symbolizes an unknown
 		unknown_checker(temp_name,temp_code,temp_calling,temp_year,temp_emissions,temp_population,temp_area,temp_percent,temp_density);
 
 		//Country object created, utilizing temp strings for constructor
-		arr[i] = Country(temp_name,temp_code,temp_calling, stoi(temp_year), stoul(temp_emissions),
-			stoul(temp_population),stoi(temp_area),stod(temp_percent),temp_density); 
+		arr[i] = Country(temp_name,temp_code,stoi(temp_calling), stoi(temp_year), stoul(temp_emissions),
+			stoul(temp_population),stoi(temp_area),stod(temp_percent),stoi(temp_density)); 
 		
 	}
 	//Once the end of file is reached, program returns to the top of the page
 	//NECESSARY or program will try reading from the bottom of the page when creating country arrays
 	//Because the program allows user to try more than once, this will be necessary
+
 	in_file.clear(); //Resets error flags on a stream such as end of file
 	in_file.seekg(0);//sets position of next character to be read back to beginning of file
 	
 	//File closes
 	in_file.close();
 }
+
 
 
 /**
@@ -180,4 +187,21 @@ void density_check(std::string& density){
 	std::stringstream dens(density); //Sets stringstream to the temp_density string
 	density = ""; //Sets temp_destiny string to an empty string
 	dens >> density; //Density stores whatever was in stringstream
+}
+
+/**
+ * Removes dashes from code
+ * @param density Temp density from parsing strings
+ * @https://www.tutorialspoint.com/how-to-remove-certain-characters-from-a-string-in-cplusplus#:~:text=In%20C%2B%2B%20we%20can,character%20that%20will%20be%20removed.
+**/
+void comma_remover(std::string& temp_string) {
+	temp_string.erase(std::remove(temp_string.begin(),temp_string.end(),','),temp_string.end()); 
+	//Remove searches for all occurences of '-' between the beginning and end of density string and moves them to the end
+	//.erase erases the '-'
+}
+
+void dash_remover(std::string& temp_string) {
+	temp_string.erase(std::remove(temp_string.begin(),temp_string.end(),'-'),temp_string.end()); 
+	//Remove searches for all occurences of '-' between the beginning and end of density string and moves them to the end
+	//.erase erases the '-'
 }

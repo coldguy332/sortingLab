@@ -3,17 +3,17 @@
 Country::Country() {
 	this->country_name = "";
 	this->code = "";
-	this->calling_code = "";
+	this->calling_code = 0;
 	this->year = 0;
 	this->emissions = 0;
 	this->population = 0;
 	this->area = 0;
 	this->percent = 0.0;
-	this->density = "";
+	this->density = 0;
 }
 
-Country::Country(std::string country_name, std::string code, std::string calling_code, int year ,
-	long int emissions, long int population, int area, double percent, std::string density) {
+Country::Country(std::string country_name, std::string code, int calling_code, int year ,
+	long int emissions, long int population, int area, double percent, int density) {
 	this->country_name = country_name;
 	this->code = code;
 	this->calling_code = calling_code;
@@ -31,7 +31,7 @@ std::string Country::get_name() const {
 std::string Country::get_code() const {
 	return this->code;
 }
-std::string Country::get_calling() const {
+int Country::get_calling() const {
 	return this->calling_code;
 }
 int Country::get_year() const {
@@ -49,7 +49,7 @@ int Country::get_area() const {
 double Country::get_percent() const {
 	return this->percent;
 }
-std::string Country::get_density() const {
+int Country::get_density() const {
 	return this->density;
 }
 

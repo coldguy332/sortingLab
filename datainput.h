@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #include "country.h"
 #include "prompts.h"
@@ -17,5 +18,7 @@ int line_counter(std::ifstream& in_file);
 void quoted_field_code(std::stringstream& ss, std::string& temp_string);
 void quoted_field_density(std::stringstream& ss, std::string& temp_string);
 void density_check(std::string& density);
+void comma_remover(std::string& temp_string);
+void dash_remover(std::string& temp_string);
 
 #endif
