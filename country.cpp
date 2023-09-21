@@ -54,3 +54,8 @@ std::string Country::get_density() const {
 }
 
 
+void Country::offload_data(std::ofstream& off) {
+	off << this->get_name() << "," << this->get_code() << "," << this->get_calling() << ","
+	    << this->get_year() << "," << this->get_emissions() << "," << this->get_population() << ","
+	    << this->get_area() << "," << this->get_percent() << "," << this->get_density();
+}

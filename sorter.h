@@ -9,6 +9,7 @@
 #include <chrono>
 
 #include "country.h"
+#include "prompts.h"
 #include "bubblesort.h"
 #include "selectionsort.h"
 #include "insertionsort.h"
@@ -33,5 +34,10 @@ std::string get_criteria(int choice);
 std::string already_sorted_check(int choice);
 
 void display_borders(int choice);
+void output_data(Country* arr, int index, int choice_one, int choice_two);
+
+void display_sorted_left(Country* arr, int index, int choice);
+void display_sorted_right(Country* arr, int index, int choice);
+
 
 #endif

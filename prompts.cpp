@@ -30,3 +30,24 @@ void choosing_algorithm(Country *arr_one, Country *arr_two, int index_one, int i
 	}
 
 }
+
+void save_and_quit(Country* arr_one, Country *arr_two,int index_one,int index_two) {
+	char choice;
+	std::cout << "Would you like to save your sorted lists?(Y/n):" ;
+	std::cin >> choice;
+	if (choice == 'Y' || choice == 'y') {
+		output_to_file(arr_one,arr_two, index_one, index_two);
+	}
+	delete[] arr_one;
+	delete[] arr_two;
+	std::cout << "Would you like to " << std::endl << "A)Quit the program" << std::endl 
+			  << "B)Re-use the program" << std::endl;
+	std::cin >> choice;
+	if (choice == 'A' || choice == 'a') {
+		exit(0);
+	}
+	if (choice == 'B' || choice == 'b') {
+		welcome_prompt();
+	}
+	
+}

@@ -21,6 +21,17 @@ void rand_algos(Country *arr_one, Country *arr_two,int index_one, int index_two)
 
 	choose_rand_alg(arr_one,index_one,choice_one,choice_two);
 	//choose_rand_alg(arr_two,index_two,choice_one,choice_two);
+
+	output_data(arr_one,index_one,choice_one,choice_two);
+	//output_data(arr_two,index_two,choice_one,choice_two);
+
+
+	//Merge sorts original array by choices to be passed into possible save file
+	merge_sort(arr_one,0,index_one-1,choice_one);
+	merge_sort(arr_two,0,index_two-1,choice_two);
+	save_and_quit(arr_one, arr_two,index_one,index_two);
+
+	
 }
 
 void sort_criteria(int& choice_one, int& choice_two) {
@@ -248,5 +259,114 @@ void display_borders(int choice) {
 	std::cout << std::setw(20) << std::right << "Algorithm";
 	std::cout << std::setw(1) << std::left << " ";
 	std::cout << std::setw(20) << std::right << "Already Sorted?" << std::endl;
+}
+
+void output_data(Country* arr, int index, int choice_one,int choice_two) {
+	std::cout << std::endl;
+	std::cout << std::setw(20) << std::left << get_criteria(choice_one);
+	std::cout << std::setw(1) << std::left << " ";
+	std::cout << std::setw(20) << std::right << get_criteria(choice_two) << std::endl;
+	
+	Country *copy = new Country[index];
+	Country *copy_a = new Country[index];
+	Country *copy_b = new Country[index];
+	for (int i = 0; i < index; i++) {
+			copy[i] = arr[i];
+	}
+
+	merge_sort(arr,0,index,choice_one);
+	for (int i = 0; i < index; i++) {
+		copy_a[i] = arr[i];
+	}
+	for (int i = 0; i < index; i++) {
+		arr[i] = copy[i];
+	}
+	merge_sort(arr,0,index,choice_two);
+	for (int i = 0; i < index; i++) {
+		copy_b[i] = arr[i];
+	}
+	for (int i = 0; i < index; i++) {
+		arr[i] = copy[i];
+	}
+	std::cout << "Top 50" << std::endl;
+	for (int i = 0; i < 50; i++) {
+		display_sorted_left(copy_a,i,choice_one);
+		std::cout << std::setw(1) << std::left << " ";
+		display_sorted_right(copy_b,i,choice_two);
+	}
+	std::cout << "Bottom 50" << std::endl;
+	for (int i = index - 50; i < index; i++) {
+		display_sorted_left(copy_a,i,choice_one);
+		std::cout << std::setw(1) << std::left << " ";
+		display_sorted_right(copy_b,i,choice_two);
+	}
+
+	delete[] copy;
+	delete[] copy_a;
+	delete[] copy_b;
+}
+
+void display_sorted_left(Country* arr, int index, int choice) {
+	switch (choice) {
+		case 1:
+			std::cout << std::setw(20) << std::left << arr[index].get_name();
+			break;
+		case 2:
+			std::cout << std::setw(20) << std::left << arr[index].get_code();
+			break;
+		case 3:
+			std::cout << std::setw(20) << std::left << arr[index].get_calling();
+			break;
+		case 4:
+			std::cout << std::setw(20) << std::left << arr[index].get_year();
+			break;
+		case 5:
+			std::cout << std::setw(20) << std::left << arr[index].get_emissions();
+			break;
+		case 6:
+			std::cout << std::setw(20) << std::left << arr[index].get_population();
+			break;
+		case 7:
+			std::cout << std::setw(20) << std::left << arr[index].get_area();
+			break;
+		case 8:
+			std::cout << std::setw(20) << std::left << arr[index].get_percent();
+			break;
+		case 9:
+			std::cout << std::setw(20) << std::left<< arr[index].get_density();
+			break;
+	}
+}
+
+void display_sorted_right(Country* arr, int index, int choice) {
+	switch(choice) {
+		case 1:
+			std::cout << std::setw(20) << std::right << arr[index].get_name() << std::endl;
+			break;
+		case 2:
+			std::cout << std::setw(20) << std::right << arr[index].get_code()<< std::endl;
+			break;
+		case 3:
+			std::cout << std::setw(20) << std::right << arr[index].get_calling()<< std::endl;
+			break;
+		case 4:
+			std::cout << std::setw(20) << std::right << arr[index].get_year()<< std::endl;
+			break;
+		case 5:
+			std::cout << std::setw(20) << std::right << arr[index].get_emissions() << std::endl;
+			break;
+		case 6:
+			std::cout << std::setw(20) << std::right << arr[index].get_population() << std::endl;
+			break;
+		case 7:
+			std::cout << std::setw(20) << std::right << arr[index].get_area() << std::endl;
+			break;
+		case 8:
+			std::cout << std::setw(20) << std::right << arr[index].get_percent() << std::endl;
+			break;
+		case 9:
+			std::cout << std::setw(20) << std::right << arr[index].get_density() << std::endl;
+			break;
+	}
 }
 

@@ -2,6 +2,8 @@
 #define COUNTRY_H
 
 #include <iostream>
+#include <fstream>
+
 
 class Country {
 	public:
@@ -18,6 +20,8 @@ class Country {
 		int get_area() const;
 		double get_percent() const;
 		std::string get_density() const;
+
+		void offload_data(std::ofstream& off);
 
 	private:
 		std::string country_name; //'1'
