@@ -65,14 +65,15 @@ void array_filler(std::ifstream& in_file, Country *arr, int index) {
 		comma_remover(temp_calling);
 		dash_remover(temp_calling);
 		comma_remover(temp_density);
+	
 		
-
 		//Converts any empty values into a "-1" which symbolizes an unknown
 		unknown_checker(temp_name,temp_code,temp_calling,temp_year,temp_emissions,temp_population,temp_area,temp_percent,temp_density);
 
 		//Country object created, utilizing temp strings for constructor
 		arr[i] = Country(temp_name,temp_code,stoi(temp_calling), stoi(temp_year), stoul(temp_emissions),
 			stoul(temp_population),stoi(temp_area),stod(temp_percent),stoi(temp_density)); 
+		
 		
 	}
 	//Once the end of file is reached, program returns to the top of the page

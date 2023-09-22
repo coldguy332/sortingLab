@@ -29,7 +29,7 @@ void launch_selection(Country* arr, int index, int choice);
 void launch_insertion(Country* arr, int index, int choice);
 void launch_merge(Country *arr, int from, int to,int choice);
 
-void choose_rand_alg(Country *arr, int index, int choice_one, int choice_two);
+void choose_rand_alg(Country *arr_one,Country* arr_two,int index_one,int index_two,int choice_one, int choice_two);
 std::string get_criteria(int choice);
 std::string already_sorted_check(int choice);
 

@@ -11,26 +11,36 @@ void all_algos(Country *arr_one, Country *arr_two,int index_one, int index_two) 
 	launch_smallfile(arr_one,index_one,choice_one,choice_two);
 	launch_bigfile(arr_two,index_two,choice_one,choice_two);
 
+	output_data(arr_one,index_one,choice_one,choice_two);
+    output_data(arr_two,index_two,choice_one,choice_two);
+
+    merge_sort(arr_one,0,index_one-1,choice_one);
+	merge_sort(arr_two,0,index_two-1,choice_two);
+	save_and_quit(arr_one, arr_two,index_one,index_two);
+
 }
 
 void rand_algos(Country *arr_one, Country *arr_two,int index_one, int index_two) {
 	int choice_one;
 	int choice_two;
+	int random = 0;
 	sort_criteria(choice_one, choice_two);
 	display_borders(choice_one);
 
-	choose_rand_alg(arr_one,index_one,choice_one,choice_two);
-	//choose_rand_alg(arr_two,index_two,choice_one,choice_two);
+	
+	
+	choose_rand_alg(arr_one,arr_two,index_one,index_two,choice_one,choice_two);
 
 	output_data(arr_one,index_one,choice_one,choice_two);
-	//output_data(arr_two,index_two,choice_one,choice_two);
-
-
+    output_data(arr_two,index_two,choice_one,choice_two);
+ 
+ 
 	//Merge sorts original array by choices to be passed into possible save file
 	merge_sort(arr_one,0,index_one-1,choice_one);
 	merge_sort(arr_two,0,index_two-1,choice_two);
 	save_and_quit(arr_one, arr_two,index_one,index_two);
-
+	
+	
 	
 }
 
@@ -218,7 +228,7 @@ std::string get_criteria(int choice){
     }
 }
 
-void choose_rand_alg(Country *arr, int index, int choice_one, int choice_two) {
+void choose_rand_alg(Country *arr_one,Country* arr_two,int index_one,int index_two,int choice_one, int choice_two) {
 	int random = 0;
 	srand(time(NULL));
 	for (int i = 0; i < 5; i++) {
@@ -226,21 +236,39 @@ void choose_rand_alg(Country *arr, int index, int choice_one, int choice_two) {
 	}
 	switch (random) {
 		case 1:
-			launch_selection(arr,index,choice_one);
-			launch_selection(arr,index,choice_two);
+			launch_merge(arr_one,0,index_one-1,choice_one);
+			launch_merge(arr_one,0,index_one-1,choice_two);
+			launch_merge(arr_two,0,index_two-1,choice_one);
+			launch_merge(arr_two,0,index_two-1,choice_two);
+			launch_selection(arr_one,index_one,choice_one);
+			launch_selection(arr_one,index_one,choice_two);
+			launch_selection(arr_two,index_two,choice_one);
+			launch_selection(arr_two,index_two,choice_two);
 			break;
 		case 2:
-			launch_bubble(arr,index,choice_one);
-			launch_bubble(arr,index,choice_two);
+			launch_merge(arr_one,0,index_one-1,choice_one);
+			launch_merge(arr_one,0,index_one-1,choice_two);
+			launch_merge(arr_two,0,index_two-1,choice_one);
+			launch_merge(arr_two,0,index_two-1,choice_two);
+			launch_bubble(arr_one,index_one,choice_one);
+			launch_bubble(arr_one,index_one,choice_two);
+			launch_bubble(arr_two,index_two,choice_one);
+			launch_bubble(arr_two,index_two,choice_two);
 			break;
 		case 3:
-			launch_insertion(arr,index,choice_one);
-			launch_insertion(arr,index,choice_two);
+			launch_merge(arr_one,0,index_one-1,choice_one);
+			launch_merge(arr_one,0,index_one-1,choice_two);
+			launch_merge(arr_two,0,index_two-1,choice_one);
+			launch_merge(arr_two,0,index_two-1,choice_two);
+			launch_insertion(arr_one,index_one,choice_one);
+			launch_insertion(arr_one,index_one,choice_two);
+			launch_insertion(arr_two,index_two,choice_one);
+			launch_insertion(arr_two,index_two,choice_two);
 			break;
 	}
-	launch_merge(arr,0,index,choice_one);
-	launch_merge(arr,0,index,choice_two);
+	
 }
+
 
 std::string already_sorted_check(int choice) {
 	if (choice == 1) {
