@@ -1,3 +1,7 @@
+//
+// Created by Amal Afsal for Sorting lab on 9/18/23.
+//
+
 #ifndef SELECTIONSORT_H
 #define SELECTIONSORT_H
 

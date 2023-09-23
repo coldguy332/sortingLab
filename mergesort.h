@@ -1,3 +1,7 @@
+//
+// Created by Amal Afsal for Sorting lab on 9/18/23.
+//
+
 #ifndef MERGESORT_H
 #define MERGESORT_H
 

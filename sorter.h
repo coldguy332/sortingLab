@@ -1,3 +1,7 @@
+//
+// Created by Amal Afsal for Sorting lab on 9/17/23.
+//
+
 #ifndef SORTER_H
 #define SORTER_H
 
