@@ -21,6 +21,7 @@ class Country {
 		double get_percent() const;
 		int get_density() const;
 
+		bool get_data_member(int choice);
 		void offload_data(std::ofstream& off);
 
 	private:

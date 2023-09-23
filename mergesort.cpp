@@ -1,5 +1,15 @@
 #include "mergesort.h"
 
+/**
+ * Helper function to merge sort
+ * Returns true or false if conditional is met
+ * Replaces "if (a[i1] < a[i2])" 
+ * Necessary if you want to compare criterias
+ * @param arr Country array
+ * @param i1 Next element to consider in the first half
+ * @param i2 Next element to consider in the second half 
+ * @param choice Numerical value which determines the criteria to be sorted by
+**/
 bool merge_comparison(Country* arr, int i1, int i2, int choice) {
 	switch (choice) {
         case 1: 
@@ -25,6 +35,14 @@ bool merge_comparison(Country* arr, int i1, int i2, int choice) {
     }
 }
 
+/** 
+   Merges two adjacent ranges in an array.
+   @param arr the Country array with the elements to merge
+   @param from the start of the first range
+   @param mid the end of the first range
+   @param to the end of the second 
+   @https://learn.zybooks.com/zybook/OHLONECS124ChenhansaFall2023/chapter/14/section/7
+**/
 void merge(Country* arr, int from, int mid, int to,int choice) {
 	int n = to - from + 1; // Size of the range to be merged 
    // Merge both halves into a temporary array b 
@@ -83,6 +101,12 @@ void merge(Country* arr, int from, int mid, int to,int choice) {
    delete[] b;
 }
 
+/**  
+   Sorts the elements in a range of an array.
+   @param a the Country array with the elements to sort
+   @param from start of the range to sort
+   @param to end of the range to sort
+*/
 void merge_sort(Country *arr, int from, int to,int choice) {
    if (from == to) { return; }
    int mid = (from + to) / 2;

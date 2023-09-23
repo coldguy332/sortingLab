@@ -1,49 +1,71 @@
 #include "sorter.h"
 
-using namespace std::chrono;
+using namespace std::chrono; //Necessary for timing sorting algorithms
 
-void all_algos(Country *arr_one, Country *arr_two,int index_one, int index_two) {
+/**
+ * Sorts criteria by using all sorting algorithms
+ * @param arr_one Country array one
+ * @param arr_two Country array two
+ * @param size_one Size of array index one
+ * @param size_two Size of array index two
+**/
+void all_algos(Country *arr_one, Country *arr_two,int size_one, int size_two) {
+	//Users will choose what criteria to sort with by numerical value
 	int choice_one;
 	int choice_two;
-	sort_criteria(choice_one, choice_two);
-	display_borders(choice_one);
 
-	launch_smallfile(arr_one,index_one,choice_one,choice_two);
-	launch_bigfile(arr_two,index_two,choice_one,choice_two);
+	sort_criteria(choice_one, choice_two); //Function which prompts user to choose what criteria to sort by
+	display_borders(choice_one); //Displays the non-numerical information of the sorting times, from displaydata.cpp
 
-	output_data(arr_one,index_one,choice_one,choice_two);
-    output_data(arr_two,index_two,choice_one,choice_two);
+	launch_smallfile(arr_one,size_one,choice_one,choice_two); //Launches 4 algorithms to sort the small csv file
+	launch_bigfile(arr_two,size_two,choice_one,choice_two); //Launches 4 algorithms to sort the big csv file
 
-    merge_sort(arr_one,0,index_one-1,choice_one);
-	merge_sort(arr_two,0,index_two-1,choice_two);
-	save_and_quit(arr_one, arr_two,index_one,index_two);
+	output_data(arr_one,size_one,choice_one,choice_two); //Outputs sorted data of array one
+    output_data(arr_two,size_two,choice_one,choice_two); //Outputs sorted data of array two
+
+    //Permanently sorts array one and two so its data can be saved
+    merge_sort(arr_one,0,size_one-1,choice_one); 
+	merge_sort(arr_two,0,size_two-1,choice_two);
+
+	save_and_quit(arr_one, arr_two,size_one,size_two);//Function gives user option to save and quit, function from save.cpp
 
 }
 
-void rand_algos(Country *arr_one, Country *arr_two,int index_one, int index_two) {
+/**
+ * Sorts criteria by using one slow and fast sorting algorithm
+ * @param arr_one Country array one
+ * @param arr_two Country array two
+ * @param size_one Size of array index one
+ * @param size_two Size of array index two
+**/
+void rand_algos(Country *arr_one, Country *arr_two,int size_one, int size_two) {
+	//Users will choose what criteria to sort with by numerical value
 	int choice_one;
 	int choice_two;
-	int random = 0;
-	sort_criteria(choice_one, choice_two);
-	display_borders(choice_one);
-
 	
-	
-	choose_rand_alg(arr_one,arr_two,index_one,index_two,choice_one,choice_two);
+	sort_criteria(choice_one, choice_two); //Function which prompts user to choose what criteria to sort by
+	display_borders(choice_one); //Displays the non-numerical information of the sorting times, from displaydata.cpp
 
-	output_data(arr_one,index_one,choice_one,choice_two);
-    output_data(arr_two,index_two,choice_one,choice_two);
+	choose_rand_alg(arr_one,arr_two,size_one,size_two,choice_one,choice_two); //Chooses and launches a random n^2 algorithm along with merge sort
+
+	output_data(arr_one,size_one,choice_one,choice_two); //Outputs sorted data of array one
+    output_data(arr_two,size_two,choice_one,choice_two); //Outputs sorted data of array two
  
- 
-	//Merge sorts original array by choices to be passed into possible save file
-	merge_sort(arr_one,0,index_one-1,choice_one);
-	merge_sort(arr_two,0,index_two-1,choice_two);
-	save_and_quit(arr_one, arr_two,index_one,index_two);
+	//Permanently sorts array one and two so its data can be saved
+	merge_sort(arr_one,0,size_one-1,choice_one);
+	merge_sort(arr_two,0,size_two-1,choice_two);
+
+	save_and_quit(arr_one, arr_two,size_one,size_two);//Function gives user option to save and quit, function from save.cpp
 	
 	
 	
 }
 
+/**
+ * User given the option to choose what criteria to sort by
+ * @param choice_one First choice of criteria, passed by reference
+ * @param choice_two Second choice of criteria, passed by reference
+**/
 void sort_criteria(int& choice_one, int& choice_two) {
 	std::cout << "This program allows you to sort 9 different criterias. Two of these criterias can be sorted " 
 				  "at the same time." << std::endl;
@@ -58,344 +80,218 @@ void sort_criteria(int& choice_one, int& choice_two) {
 	std::cout << std::endl; 
 }
 
-void launch_smallfile(Country *arr_one, int index_one, int choice_one, int choice_two) {
-	launch_merge(arr_one,0,index_one-1,choice_one);
-	launch_insertion(arr_one, index_one,choice_one);
-	launch_bubble(arr_one, index_one,choice_one);
-	launch_selection(arr_one, index_one,choice_one);
+/**
+ * Array copies one array to the other
+ * @param arr_one Country array one
+ * @param arr_two Country array two
+ * @param size of index (size of index shared between two arrays)
+**/
+void copy_array(Country* arr_one, Country* arr_two, int size) {
+	for (int i = 0; i < size;i++) {
+		arr_one[i] = arr_two[i];
+	}
+}
+/**
+ * Launches sorting 4 sorting algorithms for sorting criteria one and two of the smallfile
+ * @param arr_one Country array one holding values from small file
+ * @param size_one Size of index of country array one
+ * @param choice_one Criteria one to be sorted by
+ * @param choice_two Criteria two to be sorted by
+**/
+void launch_smallfile(Country *arr_one, int size_one, int choice_one, int choice_two) {
+	launch_merge(arr_one,0,size_one-1,choice_one);
+	launch_insertion(arr_one, size_one,choice_one);
+	launch_bubble(arr_one, size_one,choice_one);
+	launch_selection(arr_one, size_one,choice_one);
 	
-	launch_merge(arr_one,0,index_one-1,choice_two);
-	launch_insertion(arr_one, index_one,choice_two);
-	launch_bubble(arr_one, index_one,choice_two);
-	launch_selection(arr_one, index_one,choice_two);
-
+	launch_merge(arr_one,0,size_one-1,choice_two);
+	launch_insertion(arr_one, size_one,choice_two);
+	launch_bubble(arr_one, size_one,choice_two);
+	launch_selection(arr_one, size_one,choice_two);
 	
 }
 
-void launch_bigfile(Country *arr_two,int index_two,int choice_one, int choice_two) {
-	launch_merge(arr_two,0,index_two-1,choice_one);
-	launch_insertion(arr_two, index_two,choice_one);
-	launch_bubble(arr_two, index_two,choice_one);
-	launch_selection(arr_two, index_two,choice_one);
+/**
+ * Launches sorting 4 sorting algorithms for sorting criteria one and two of the bigfile
+ * @param arr_two Country array one holding values from big file
+ * @param size_two Size of index of country array two
+ * @param choice_one Criteria one to be sorted by
+ * @param choice_two Criteria two to be sorted by
+**/
+void launch_bigfile(Country *arr_two,int size_two,int choice_one, int choice_two) {
+	launch_merge(arr_two,0,size_two-1,choice_one);
+	launch_insertion(arr_two, size_two,choice_one);
+	launch_bubble(arr_two, size_two,choice_one);
+	launch_selection(arr_two, size_two,choice_one);
 	
-	launch_merge(arr_two,0,index_two-1,choice_two);
-	launch_insertion(arr_two, index_two,choice_two);
-	launch_bubble(arr_two, index_two,choice_two);
-	launch_selection(arr_two, index_two,choice_two);
+	launch_merge(arr_two,0,size_two-1,choice_two);
+	launch_insertion(arr_two, size_two,choice_two);
+	launch_bubble(arr_two, size_two,choice_two);
+	launch_selection(arr_two, size_two,choice_two);
 }
 
-void launch_bubble(Country* arr, int index, int choice) {
-	long double time = 0.0;
-	Country *copy = new Country[index];
-	for (int i = 0; i < index; i++) {
-			copy[i] = arr[i];
-	}
-	for (int i = 0; i < 5; i++) {
+/**
+ * Launches bubblesort and finds average sorting time
+ * also displays sorting time data
+ * @param arr Country array 
+ * @param size Size of index of Country array
+ * @param choice Criteria to be sorted by
+**/
+void launch_bubble(Country* arr, int size, int choice) {
+	double time = 0.0;//Value will hold the average time of sorting process
+	Country *copy = new Country[size]; //Creating a backup copy for main array
+	copy_array(copy,arr,size); //Backing up main array to copy
+
+	for (int i = 0; i < 5; i++) { //For loop set to 5 to find the average of times
 		high_resolution_clock::time_point t1 = high_resolution_clock::now();
-		new_bubblesort(arr,index,choice);
-		high_resolution_clock::time_point t2 = high_resolution_clock::now();
-		time += duration_cast<duration<double>>(t2 - t1).count();		
-		for (int i = 0; i < index; i++) {
-			arr[i] = copy[i];
-		}
+		new_bubblesort(arr,size,choice); //Sorting the main array by bubble sort
+		high_resolution_clock::time_point t2 = high_resolution_clock::now(); //Timed the array sorting process
+		time += duration_cast<duration<double>>(t2 - t1).count(); //Times add up to find average
+		copy_array(arr,copy,size); //Main array is set back equal to its original self
 	}
-	delete[] copy;
-	time = time / 5;
-	std::string criteria = get_criteria(choice);
-	std::cout << std::setw(20) << std::left << criteria;
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::left << time;
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << "Bubble Sort";
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << already_sorted_check(choice) << std::endl;
+
+	delete[] copy; //Once for loop completes, backup array deleted
+
+	time = time / 5; //Time average will be found
+	display_sort_times(get_criteria(choice),time,"Bubble Sort",choice,size);//Displays average time and other relevant information, from displaydata.cpp
 
 }
 
-void launch_selection(Country* arr, int index, int choice) {
-	long double time = 0.0;
-	Country *copy = new Country[index];
-	for (int i = 0; i < index; i++) {
-			copy[i] = arr[i];
+/**
+ * Launches selection sort and finds average sorting time
+ * also displays sorting time data
+ * @param arr Country array 
+ * @param size Size of index of Country array
+ * @param choice Criteria to be sorted by
+**/
+void launch_selection(Country* arr, int size, int choice) {
+	double time = 0.0; //Value will hold the average time of sorting process
+	Country *copy = new Country[size]; //Creating a backup copy for main array
+	copy_array(copy,arr,size); //Backing up main array to copy
+
+	for (int i = 0; i < 5; i++) { //For loop set to 5 to find the average of times
+		high_resolution_clock::time_point t1 = high_resolution_clock::now(); 
+		selection_sort(arr,size,choice); //Sorting the main array by selection sort
+		high_resolution_clock::time_point t2 = high_resolution_clock::now(); //Timed the array sorting process
+		time += duration_cast<duration<double>>(t2 - t1).count(); //Times add up to a total
+		copy_array(arr,copy,size); //Main array is set back equal to its original self
 	}
-	for (int i = 0; i < 5; i++) {
+
+	delete[] copy; //Once for loop completes, backup array deleted
+
+	time = time / 5;//Time average will be found
+	display_sort_times(get_criteria(choice),time,"Selection Sort",choice,size); //Displays average time and other relevant information, from displaydata.cpp
+}
+
+/**
+ * Launches insertion sort and finds average sorting time
+ * also displays sorting time data
+ * @param arr Country array 
+ * @param size Size of index of Country array
+ * @param choice Criteria to be sorted by
+**/
+void launch_insertion(Country* arr, int size, int choice) {
+	double time = 0.0; //Value will hold the average time of sorting process
+	Country *copy = new Country[size]; //Creating a backup copy for main array
+	copy_array(copy,arr,size); //Backing up main array to copy
+
+	for (int i = 0; i < 5; i++) { //For loop set to 5 to find the average of times
 		high_resolution_clock::time_point t1 = high_resolution_clock::now();
-		selection_sort(arr,index,choice);
-		high_resolution_clock::time_point t2 = high_resolution_clock::now();
-		time += duration_cast<duration<double>>(t2 - t1).count();
-		for (int i = 0; i < index; i++) {
-			arr[i] = copy[i];
-		}
+		insertion_sort(arr,size,choice); //Sorting the main array by insertion sort
+		high_resolution_clock::time_point t2 = high_resolution_clock::now(); //Timed the array sorting process
+		time += duration_cast<duration<double>>(t2 - t1).count(); //Times add up to a total
+		copy_array(arr,copy,size); //Main array is set back equal to its original self
 	}
-	delete[] copy;
-	time = time / 5;
-	std::string criteria = get_criteria(choice);
-	std::cout << std::setw(20) << std::left << criteria;
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::left << time;
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << "Selection Sort";
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << already_sorted_check(choice) << std::endl;
+
+	delete[] copy; //Once for loop completes, backup array deleted
+
+	time = time / 5; //Time average will be found
+	display_sort_times(get_criteria(choice),time,"Insertion Sort",choice,size); //Displays average time and other relevant information, from displaydata.cpp
 }
 
-void launch_insertion(Country* arr, int index, int choice) {
-	long double time = 0.0;
-	Country *copy = new Country[index];
-	for (int i = 0; i < index; i++) {
-			copy[i] = arr[i];
-	}
-	for (int i = 0; i < 5; i++) {
-		high_resolution_clock::time_point t1 = high_resolution_clock::now();
-		insertion_sort(arr,index,choice);
-		high_resolution_clock::time_point t2 = high_resolution_clock::now();
-		time += duration_cast<duration<double>>(t2 - t1).count();
-		for (int i = 0; i < index; i++) {
-			arr[i] = copy[i];
-		}
-	}
-	delete[] copy;
-	time = time / 5;
-	std::string criteria = get_criteria(choice);
-	std::cout << std::setw(20) << std::left << criteria;
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::left << time;
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << "Insertion Sort";
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << already_sorted_check(choice) << std::endl;
-}
-
+/**
+ * Launches merge sort and finds average sorting time
+ * also displays sorting time data
+ * @param arr Country array 
+ * @param from beginning of array range
+ * @param to end of array range
+ * @param choice Criteria to be sorted by
+**/
 void launch_merge(Country *arr, int from, int to,int choice) {
-	long double time = 0.0;
-	Country *copy = new Country[to];
-	for (int i = 0; i < to; i++) {
-			copy[i] = arr[i];
-	}
-	for (int i = 0; i < 5; i++) {
+	double time = 0.0; //Value will hold the average time of sorting process
+	Country *copy = new Country[to]; //Creating a backup copy for main array
+	copy_array(copy,arr,to); //Backing up main array to copy
+
+	for (int i = 0; i < 5; i++) { //For loop set to 5 to find the average of times
 		high_resolution_clock::time_point t1 = high_resolution_clock::now();
-		merge_sort(arr,0,to,choice);
-		high_resolution_clock::time_point t2 = high_resolution_clock::now();
-		time += duration_cast<duration<double>>(t2 - t1).count();
-		for (int i = 0; i < to; i++) {
-			arr[i] = copy[i];
-		}
+		merge_sort(arr,0,to,choice);  //Sorting the main array by merge sort
+		high_resolution_clock::time_point t2 = high_resolution_clock::now(); //Timed the array sorting process
+		time += duration_cast<duration<double>>(t2 - t1).count(); //Times add up to a total
+		copy_array(arr,copy,to); //Main array is set back equal to its original self
 	}
-	delete[] copy;
-	time = time / 5;
-	std::string criteria = get_criteria(choice);
-	std::cout << std::setw(20) << std::left << criteria;
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::left << time;
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << "Merge Sort";
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << already_sorted_check(choice) << std::endl;
+
+	delete[] copy; //Once for loop completes, backup array deleted
+
+	time = time / 5; //Time average will be found
+	display_sort_times(get_criteria(choice),time,"Merge Sort",choice,to); //Displays average time and other relevant information
 }
 
-std::string get_criteria(int choice){
-	switch (choice) {
-        case 1: 
-            return "Country Name";
-            break;
-        case 2:
-            return "Code";
-            break;
-        case 3:
-            return "Calling Code";
-            break;
-        case 4:
-            return "Year";
-            break;
-        case 5:
-            return "Emissions";
-            break;
-        case 6:
-            return "Population";
-            break;
-        case 7:
-            return "Area";
-            break;
-        case 8:
-            return "Percent";
-            break;
-        case 9:
-            return "Density";
-            break;
-        default:
-        	return "";
-        	break;
-    }
-}
-
-void choose_rand_alg(Country *arr_one,Country* arr_two,int index_one,int index_two,int choice_one, int choice_two) {
-	int random = 0;
-	srand(time(NULL));
+/**
+ * Function that chooses a random n^2 algorithm to launch
+ * Only one nlogn function (Merge Sort) no quicksort :(
+ * @param arr_one Country array one
+ * @param arr_two Country array two
+ * @param size_one Size of array one index
+ * @param size_two Size of array two index
+ * @param choice_one Criteria one to be sorted by
+ * @param choice_two Criteria two to be sorted by
+**/
+void choose_rand_alg(Country *arr_one,Country* arr_two,int size_one,int size_two,int choice_one, int choice_two) {
+	int random = 0;//Random number to be generated
+	srand(time(NULL)); //using internal clock to initialize random number generator
 	for (int i = 0; i < 5; i++) {
-		random = rand() % 3 + 1;
+		random = rand() % 3 + 1; //Generated number (from 1-3) will determine what algorithm will be merged
 	}
-	switch (random) {
+	switch (random) { //Based off the random number generator, certain algorithms will launch
 		case 1:
-			launch_merge(arr_one,0,index_one-1,choice_one);
-			launch_merge(arr_one,0,index_one-1,choice_two);
-			launch_merge(arr_two,0,index_two-1,choice_one);
-			launch_merge(arr_two,0,index_two-1,choice_two);
-			launch_selection(arr_one,index_one,choice_one);
-			launch_selection(arr_one,index_one,choice_two);
-			launch_selection(arr_two,index_two,choice_one);
-			launch_selection(arr_two,index_two,choice_two);
+			launch_merge(arr_one,0,size_one-1,choice_one);
+			launch_merge(arr_one,0,size_one-1,choice_two);
+			launch_selection(arr_one,size_one,choice_one);
+			launch_selection(arr_one,size_one,choice_two);
+			
+			launch_merge(arr_two,0,size_two-1,choice_one);
+			launch_merge(arr_two,0,size_two-1,choice_two);
+			launch_selection(arr_two,size_two,choice_one);
+			launch_selection(arr_two,size_two,choice_two);
+			
 			break;
 		case 2:
-			launch_merge(arr_one,0,index_one-1,choice_one);
-			launch_merge(arr_one,0,index_one-1,choice_two);
-			launch_merge(arr_two,0,index_two-1,choice_one);
-			launch_merge(arr_two,0,index_two-1,choice_two);
-			launch_bubble(arr_one,index_one,choice_one);
-			launch_bubble(arr_one,index_one,choice_two);
-			launch_bubble(arr_two,index_two,choice_one);
-			launch_bubble(arr_two,index_two,choice_two);
+			launch_merge(arr_one,0,size_one-1,choice_one);
+			launch_merge(arr_one,0,size_one-1,choice_two);
+			launch_bubble(arr_one,size_one,choice_one);
+			launch_bubble(arr_one,size_one,choice_two);
+			
+			launch_merge(arr_two,0,size_two-1,choice_one);
+			launch_merge(arr_two,0,size_two-1,choice_two);
+			launch_bubble(arr_two,size_two,choice_one);
+			launch_bubble(arr_two,size_two,choice_two);
+			
 			break;
 		case 3:
-			launch_merge(arr_one,0,index_one-1,choice_one);
-			launch_merge(arr_one,0,index_one-1,choice_two);
-			launch_merge(arr_two,0,index_two-1,choice_one);
-			launch_merge(arr_two,0,index_two-1,choice_two);
-			launch_insertion(arr_one,index_one,choice_one);
-			launch_insertion(arr_one,index_one,choice_two);
-			launch_insertion(arr_two,index_two,choice_one);
-			launch_insertion(arr_two,index_two,choice_two);
+			launch_merge(arr_one,0,size_one-1,choice_one);
+			launch_merge(arr_one,0,size_one-1,choice_two);
+			launch_insertion(arr_one,size_one,choice_one);
+			launch_insertion(arr_one,size_one,choice_two);
+
+			launch_merge(arr_two,0,size_two-1,choice_one);
+			launch_merge(arr_two,0,size_two-1,choice_two);
+			launch_insertion(arr_two,size_two,choice_one);
+			launch_insertion(arr_two,size_two,choice_two);
+			
 			break;
 	}
 	
 }
 
 
-std::string already_sorted_check(int choice) {
-	if (choice == 1) {
-		return "Yes";
-	}
-	else {
-		return "No";
-	}
-}
-
-void display_borders(int choice) {
-	std::string criteria = get_criteria(choice);
-	std::cout << std::setw(20) << std::left << "Criteria";
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::left << "Time";
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << "Algorithm";
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << "Already Sorted?" << std::endl;
-}
-
-void output_data(Country* arr, int index, int choice_one,int choice_two) {
-	std::cout << std::endl;
-	std::cout << std::setw(20) << std::left << get_criteria(choice_one);
-	std::cout << std::setw(1) << std::left << " ";
-	std::cout << std::setw(20) << std::right << get_criteria(choice_two) << std::endl;
-	
-	Country *copy = new Country[index];
-	Country *copy_a = new Country[index];
-	Country *copy_b = new Country[index];
-	for (int i = 0; i < index; i++) {
-			copy[i] = arr[i];
-	}
-
-	merge_sort(arr,0,index,choice_one);
-	for (int i = 0; i < index; i++) {
-		copy_a[i] = arr[i];
-	}
-	for (int i = 0; i < index; i++) {
-		arr[i] = copy[i];
-	}
-	merge_sort(arr,0,index,choice_two);
-	for (int i = 0; i < index; i++) {
-		copy_b[i] = arr[i];
-	}
-	for (int i = 0; i < index; i++) {
-		arr[i] = copy[i];
-	}
-	std::cout << "Top 50" << std::endl;
-	for (int i = 0; i < 50; i++) {
-		display_sorted_left(copy_a,i,choice_one);
-		std::cout << std::setw(1) << std::left << " ";
-		display_sorted_right(copy_b,i,choice_two);
-	}
-	std::cout << "Bottom 50" << std::endl;
-	for (int i = index - 50; i < index; i++) {
-		display_sorted_left(copy_a,i,choice_one);
-		std::cout << std::setw(1) << std::left << " ";
-		display_sorted_right(copy_b,i,choice_two);
-	}
-
-	delete[] copy;
-	delete[] copy_a;
-	delete[] copy_b;
-}
-
-void display_sorted_left(Country* arr, int index, int choice) {
-	switch (choice) {
-		case 1:
-			std::cout << std::setw(20) << std::left << arr[index].get_name();
-			break;
-		case 2:
-			std::cout << std::setw(20) << std::left << arr[index].get_code();
-			break;
-		case 3:
-			std::cout << std::setw(20) << std::left << arr[index].get_calling();
-			break;
-		case 4:
-			std::cout << std::setw(20) << std::left << arr[index].get_year();
-			break;
-		case 5:
-			std::cout << std::setw(20) << std::left << arr[index].get_emissions();
-			break;
-		case 6:
-			std::cout << std::setw(20) << std::left << arr[index].get_population();
-			break;
-		case 7:
-			std::cout << std::setw(20) << std::left << arr[index].get_area();
-			break;
-		case 8:
-			std::cout << std::setw(20) << std::left << arr[index].get_percent();
-			break;
-		case 9:
-			std::cout << std::setw(20) << std::left<< arr[index].get_density();
-			break;
-	}
-}
-
-void display_sorted_right(Country* arr, int index, int choice) {
-	switch(choice) {
-		case 1:
-			std::cout << std::setw(20) << std::right << arr[index].get_name() << std::endl;
-			break;
-		case 2:
-			std::cout << std::setw(20) << std::right << arr[index].get_code()<< std::endl;
-			break;
-		case 3:
-			std::cout << std::setw(20) << std::right << arr[index].get_calling()<< std::endl;
-			break;
-		case 4:
-			std::cout << std::setw(20) << std::right << arr[index].get_year()<< std::endl;
-			break;
-		case 5:
-			std::cout << std::setw(20) << std::right << arr[index].get_emissions() << std::endl;
-			break;
-		case 6:
-			std::cout << std::setw(20) << std::right << arr[index].get_population() << std::endl;
-			break;
-		case 7:
-			std::cout << std::setw(20) << std::right << arr[index].get_area() << std::endl;
-			break;
-		case 8:
-			std::cout << std::setw(20) << std::right << arr[index].get_percent() << std::endl;
-			break;
-		case 9:
-			std::cout << std::setw(20) << std::right << arr[index].get_density() << std::endl;
-			break;
-	}
-}
 

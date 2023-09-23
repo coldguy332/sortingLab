@@ -8,6 +8,7 @@
 #include <ratio>
 #include <chrono>
 
+#include "displaydata.h"
 #include "country.h"
 #include "prompts.h"
 #include "bubblesort.h"
@@ -21,6 +22,8 @@ void rand_algos(Country *arr_one, Country *arr_two,int index_one, int index_two)
 
 void sort_criteria(int& choice_one, int& choice_two);
 
+void copy_array(Country* arr_one, Country* arr_two, int size);
+
 void launch_smallfile(Country *arr_one, int index_one, int choice_one, int choice_two);
 void launch_bigfile(Country *arr_two,int index_two,int choice_one, int choice_two);
 
@@ -30,14 +33,7 @@ void launch_insertion(Country* arr, int index, int choice);
 void launch_merge(Country *arr, int from, int to,int choice);
 
 void choose_rand_alg(Country *arr_one,Country* arr_two,int index_one,int index_two,int choice_one, int choice_two);
-std::string get_criteria(int choice);
-std::string already_sorted_check(int choice);
 
-void display_borders(int choice);
-void output_data(Country* arr, int index, int choice_one, int choice_two);
-
-void display_sorted_left(Country* arr, int index, int choice);
-void display_sorted_right(Country* arr, int index, int choice);
 
 
 #endif
